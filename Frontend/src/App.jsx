@@ -1,6 +1,16 @@
+import Navbar from "./components/Navbar";
+import StoreCard from "./components/StoreCard";
+
 function App() {
   return (
-    <h1>Store Rating App 🚀</h1>
+    <>
+      <Navbar />
+      <h1>Welcome 🚀</h1>
+
+      <StoreCard />
+      <StoreCard />
+      <StoreCard />
+    </>
   );
 }
 
