@@ -1,28 +1,35 @@
-import Navbar from "./components/Navbar";
-import StoreCard from "./components/StoreCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [stores, setStores] = useState([]);
 
-  const stores = [
-    { name: "Pizza Palace", desc: "Best pizza 🍕", rating: 4.5 },
-    { name: "Burger Hub", desc: "Juicy burgers 🍔", rating: 4.2 },
-    { name: "Cafe Coffee", desc: "Chill vibes ☕", rating: 4.7 }
-  ];
+  const getStores = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/stores");
+      setStores(response.data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getStores();
+  }, []);
 
   return (
-    <>
-      <Navbar />
-      <h1>Welcome 🚀</h1>
+    <div>
+      <h1>Store Rating App</h1>
 
-      {stores.map((store, index) => (
-        <StoreCard
-          key={index}
-          name={store.name}
-          desc={store.desc}
-          rating={store.rating}
-        />
+      {stores.map((store) => (
+        <div key={store.id}>
+          <h3>{store.name}</h3>
+          <p>{store.address}</p>
+          <p>Rating: {store.rating}</p>
+          <hr />
+        </div>
       ))}
-    </>
+    </div>
   );
 }
 

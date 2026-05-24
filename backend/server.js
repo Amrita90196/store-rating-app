@@ -52,6 +52,18 @@ app.post("/stores", async (req, res) => {
   }
 });
 
+app.get("/stores", async (req, res) => {
+  try {
+    const allStores = await pool.query(
+      "SELECT * FROM stores ORDER BY id ASC"
+    );
+
+    res.json(allStores.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
