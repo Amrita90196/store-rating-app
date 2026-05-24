@@ -18,9 +18,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
-});
 app.post("/signup", async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -38,4 +35,23 @@ app.post("/signup", async (req, res) => {
   } catch (err) {
     console.error(err.message);
   }
+});
+
+app.post("/stores", async (req, res) => {
+  try {
+    const { name, address, rating } = req.body;
+
+    const newStore = await pool.query(
+      "INSERT INTO stores (name, address, rating) VALUES ($1, $2, $3) RETURNING *",
+      [name, address, rating]
+    );
+
+    res.json(newStore.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
 });
